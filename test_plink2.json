@@ -1,0 +1,16 @@
+{
+  "run_GEM.pgenfiles": ["testfiles/pgen_by_plink.pgen", "testfiles/pgen_by_plink.pgen"],
+  "run_GEM.psamfile": "testfiles/pgen_by_plink.psam",
+  "run_GEM.pvarfiles": ["testfiles/pgen_by_plink.pvar", "testfiles/pgen_by_plink.pvar"],
+  "run_GEM.maf": "0.001",
+  "run_GEM.phenofile": "testfiles/sim_N10k_M100k.pheno",
+  "run_GEM.sample_id_header": "sampleid",
+  "run_GEM.outcome": "cont_pheno",
+  "run_GEM.binary_outcome": "false",
+  "run_GEM.exposure_names": "cov1",
+  "run_GEM.int_covar_names": "cov2",
+  "run_GEM.covar_names": "cov3",
+  "run_GEM.robust": "true",
+  "run_GEM.memory": "1",
+  "run_GEM.disk": "1"
+}

@@ -1,8 +1,8 @@
-task run_tests {
+task run_tests_bgen {
 
-	File genofile
-	Float maf
+	File bgenfile
 	File? samplefile
+	Float maf
 	File phenofile
 	String sample_id_header
 	String outcome
@@ -29,9 +29,9 @@ task run_tests {
 		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
 
 		/GEM/GEM \
-			--bgen ${genofile} \
-			--maf ${maf} \
+			--bgen ${bgenfile} \
 			${"--sample " + samplefile} \
+			--maf ${maf} \
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
@@ -64,6 +64,73 @@ task run_tests {
 	}
 }
 
+task run_tests_pgen {
+
+	File pgenfile
+	File psamfile
+	File pvarfile
+	Float maf
+	File phenofile
+	String sample_id_header
+	String outcome
+	Boolean binary_outcome
+	String exposure_names
+	String? int_covar_names
+	String? covar_names
+	String delimiter
+	String missing
+	Boolean robust
+	Float tol
+	Int threads
+	Int stream_snps
+	Int memory
+	Int cpu
+	Int disk
+	Int monitoring_freq
+
+	String binary_outcome01 = if binary_outcome then "1" else "0"
+	String robust01 = if robust then "1" else "0"
+
+	command {
+		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
+		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
+
+		/GEM/GEM \
+			--pgen ${pgenfile} \
+			--psam ${psamfile} \
+			--pvar ${pvarfile} \
+			--maf ${maf} \
+			--pheno-file ${phenofile} \
+			--sampleid-name ${sample_id_header} \
+			--pheno-name ${outcome} \
+			--pheno-type ${binary_outcome01} \
+			--exposure-names ${exposure_names} \
+			${"--int-covar-names " + int_covar_names} \
+			${"--covar-names " + covar_names} \
+			--delim ${delimiter} \
+			--missing-value ${missing} \
+			--robust ${robust01} \
+			--tol ${tol} \
+			--threads ${threads} \
+			--stream-snps ${stream_snps} \
+			--out gem_res
+	}
+
+	runtime {
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		memory: "${memory} GB"
+		cpu: "${cpu}"
+		disks: "local-disk ${disk} HDD"
+		gpu: false
+		dx_timeout: "7D0H00M"
+	}
+
+	output {
+		File out = "gem_res"
+		File system_resource_usage = "system_resource_usage.log"
+		File process_resource_usage = "process_resource_usage.log"
+	}
+}
 task cat_results {
 
 	Array[File] results_array
@@ -85,9 +152,12 @@ task cat_results {
 
 workflow run_GEM {
 
-	Array[File] genofiles
-	Float? maf = 0.005
+	Array[File]? bgenfiles
 	File? samplefile
+	Array[File]? pgenfiles
+	File? psamfile
+	Array[File]? pvarfiles
+	Float? maf = 0.005
 	File phenofile
 	String? sample_id_header = "sampleID"
 	String outcome
@@ -106,47 +176,87 @@ workflow run_GEM {
 	Int? threads = 2
 	Int? monitoring_freq = 1
 
-	scatter (i in range(length(genofiles))) {
-		call run_tests {
-			input:
-				genofile = genofiles[i],
-				maf = maf,
-				samplefile = samplefile,
-				phenofile = phenofile,
-				sample_id_header = sample_id_header,
-				outcome = outcome,
-				binary_outcome = binary_outcome,
-				exposure_names = exposure_names,
-				int_covar_names = int_covar_names,
-				covar_names = covar_names,
-				delimiter = delimiter,
-				missing = missing,
-				robust = robust,
-				stream_snps = stream_snps,
-				tol = tol,
-				memory = memory,
-				cpu = cpu,
-				disk = disk,
-				threads = threads,
-				monitoring_freq = monitoring_freq
+	Int n_files = if (defined(bgenfiles)) then length(select_first([bgenfiles])) else length(select_first([pgenfiles]))
+
+	if (defined(bgenfiles)) {
+		scatter (i in range(n_files)) {
+			call run_tests_bgen {
+				input:
+					bgenfile = select_first([bgenfiles])[i],
+					samplefile = samplefile,
+					maf = maf,
+					phenofile = phenofile,
+					sample_id_header = sample_id_header,
+					outcome = outcome,
+					binary_outcome = binary_outcome,
+					exposure_names = exposure_names,
+					int_covar_names = int_covar_names,
+					covar_names = covar_names,
+					delimiter = delimiter,
+					missing = missing,
+					robust = robust,
+					stream_snps = stream_snps,
+					tol = tol,
+					memory = memory,
+					cpu = cpu,
+					disk = disk,
+					threads = threads,
+					monitoring_freq = monitoring_freq
+			}
 		}
 	}
 
+	if (defined(pgenfiles)) {
+		scatter (i in range(n_files)) {
+			call run_tests_pgen {
+				input:
+					pgenfile = select_first([pgenfiles])[i],
+					psamfile = psamfile,
+					pvarfile = select_first([pvarfiles])[i],
+					maf = maf,
+					phenofile = phenofile,
+					sample_id_header = sample_id_header,
+					outcome = outcome,
+					binary_outcome = binary_outcome,
+					exposure_names = exposure_names,
+					int_covar_names = int_covar_names,
+					covar_names = covar_names,
+					delimiter = delimiter,
+					missing = missing,
+					robust = robust,
+					stream_snps = stream_snps,
+					tol = tol,
+					memory = memory,
+					cpu = cpu,
+					disk = disk,
+					threads = threads,
+					monitoring_freq = monitoring_freq
+			}
+		}
+	}
+
+	Array[File]? results_array = if (defined(bgenfiles)) then run_tests_bgen.out else run_tests_pgen.out
+	Array[File]? sru = if (defined(bgenfiles)) then run_tests_bgen.system_resource_usage else run_tests_pgen.system_resource_usage
+	Array[File]? pru = if (defined(bgenfiles)) then run_tests_bgen.process_resource_usage else run_tests_pgen.process_resource_usage
+
 	call cat_results {
 		input:
-			results_array = run_tests.out
+			results_array = results_array
 	}
 
 	output {
 		File gem_results = cat_results.all_results
-		Array[File] system_resource_usage = run_tests.system_resource_usage
-		Array[File] process_resource_usage = run_tests.process_resource_usage
+		Array[File]? system_resource_usage = sru
+		Array[File]? process_resource_usage = pru
 	}
 
 	parameter_meta {
-		genofiles: "Array of genotype filepaths in .bgen format."
-		maf: "Minor allele frequency threshold for pre-filtering variants as a fraction (default is 0.005)."
+		bgenfiles: "Array of genotype filepaths in .bgen format. Optional, but either this or pgenfiles must be specified as an input."
 		samplefile: "Optional .sample file accompanying the .bgen file. Required for proper function if .bgen does not store sample identifiers."
+		pgenfiles: "Array of genotype filepaths in .pgen (PLINK2) format. Optional, but either this or bgenfiles must be specified as an input."
+		psamfile: "Sample descriptor file in .psam (PLINK2) format. Optional, but must be included if using the pgenfiles input."
+		pvarfiles: "Array of variant descriptor filepaths in .pvar (PLINK2) format. Optional, but must be included if using the pgenfiles input."
+		maf: "Minor allele frequency threshold for pre-filtering variants as a fraction (default is 0.005)."
 		phenofile: "Phenotype filepath."	
 		sample_id_header: "Optional column header name of sample ID in phenotype file."
 		outcome: "Column header name of phenotype data in phenotype file."

@@ -1,5 +1,5 @@
 {
-  "run_GEM.genofiles": ["testfiles/example.bgen", "testfiles/example.bgen"],
+  "run_GEM.bgenfiles": ["testfiles/example.bgen", "testfiles/example.bgen"],
   "run_GEM.maf": "0.001",
   "run_GEM.phenofile": "testfiles/example.pheno",
   "run_GEM.sample_id_header": "sampleid",
