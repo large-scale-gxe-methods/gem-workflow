@@ -53,6 +53,7 @@ task run_tests_bgen {
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
+		preemptible: 2
 		gpu: false
 		dx_timeout: "7D0H00M"
 	}
@@ -122,6 +123,7 @@ task run_tests_pgen {
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
 		gpu: false
+		preemptible: 2
 		dx_timeout: "7D0H00M"
 	}
 
