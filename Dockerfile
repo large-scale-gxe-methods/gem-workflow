@@ -36,7 +36,7 @@ ADD https://api.github.com/repos/large-scale-gxe-methods/gem-workflow/git/refs/h
 RUN apt-get update && apt-get -y install git make libzstd-dev && \
   git clone https://github.com/large-scale-gxe-methods/GEM && \
   cd /GEM/src/ && \
-  git checkout dev && \
+  git checkout loop && \
   env && \
   pwd && \
   ls -l && \

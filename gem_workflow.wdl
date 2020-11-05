@@ -49,7 +49,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:loop"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -58,7 +58,7 @@ task run_tests_bgen {
 	}
 
 	output {
-		File out = "gem_res"
+		Array[File] out = glob("*gem_res")
 		File system_resource_usage = "system_resource_usage.log"
 		File process_resource_usage = "process_resource_usage.log"
 	}
@@ -117,7 +117,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:loop"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -126,7 +126,7 @@ task run_tests_pgen {
 	}
 
 	output {
-		File out = "gem_res"
+		Array[File] out = glob("*gem_res")
 		File system_resource_usage = "system_resource_usage.log"
 		File process_resource_usage = "process_resource_usage.log"
 	}
@@ -235,17 +235,12 @@ workflow run_GEM {
 		}
 	}
 
-	Array[File]? results_array = if (defined(bgenfiles)) then run_tests_bgen.out else run_tests_pgen.out
+	#Array[File]? results_array = if (defined(bgenfiles)) then run_tests_bgen.out else run_tests_pgen.out
 	Array[File]? sru = if (defined(bgenfiles)) then run_tests_bgen.system_resource_usage else run_tests_pgen.system_resource_usage
 	Array[File]? pru = if (defined(bgenfiles)) then run_tests_bgen.process_resource_usage else run_tests_pgen.process_resource_usage
 
-	call cat_results {
-		input:
-			results_array = results_array
-	}
-
 	output {
-		File gem_results = cat_results.all_results
+		#Array[File]? gem_results = results_array
 		Array[File]? system_resource_usage = sru
 		Array[File]? process_resource_usage = pru
 	}
