@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM quay.io/cybozu/ubuntu-minimal:focal-20200925
 
 # Install Intel Math Kernel Library
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install gcc g++ gfortran wget cpio zlib1g-dev && \
