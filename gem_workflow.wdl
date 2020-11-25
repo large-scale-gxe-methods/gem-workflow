@@ -19,6 +19,7 @@ task run_tests_bgen {
 	Int memory
 	Int cpu
 	Int disk
+	Int preemptible
 	Int monitoring_freq
 
 	String binary_outcome01 = if binary_outcome then "1" else "0"
@@ -53,6 +54,7 @@ task run_tests_bgen {
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
+		preemptible: "${preemptible}"
 		gpu: false
 		dx_timeout: "7D0H00M"
 	}
@@ -86,6 +88,7 @@ task run_tests_pgen {
 	Int memory
 	Int cpu
 	Int disk
+	Int preemptible
 	Int monitoring_freq
 
 	String binary_outcome01 = if binary_outcome then "1" else "0"
@@ -121,6 +124,7 @@ task run_tests_pgen {
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
+		preemptible: "${preemptible}"
 		gpu: false
 		dx_timeout: "7D0H00M"
 	}
@@ -173,6 +177,7 @@ workflow run_GEM {
 	Int? memory = 10
 	Int? cpu = 4
 	Int? disk = 50
+	Int? preemptible = 0
 	Int? threads = 2
 	Int? monitoring_freq = 1
 
@@ -200,6 +205,7 @@ workflow run_GEM {
 					memory = memory,
 					cpu = cpu,
 					disk = disk,
+					preemptible = preemptible,
 					threads = threads,
 					monitoring_freq = monitoring_freq
 			}
@@ -229,6 +235,7 @@ workflow run_GEM {
 					memory = memory,
 					cpu = cpu,
 					disk = disk,
+					preemptible = preemptible,
 					threads = threads,
 					monitoring_freq = monitoring_freq
 			}
@@ -272,6 +279,7 @@ workflow run_GEM {
 		memory: "Requested memory (in GB)."
 		cpu: "Minimum number of requested cores."
 		disk: "Requested disk space (in GB)."
+		preemptible: "Optional number of attempts using a preemptible machine from Google Cloud prior to falling back to a standard machine (default = 0, i.e., don't use preemptible)."
 		threads: "Number of threads GEM should use for parallelization over variants."
 		monitoring_freq: "Delay between each output for process monitoring (in seconds). Default is 1 second."
 	}
