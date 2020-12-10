@@ -32,7 +32,7 @@ RUN wget -q https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.t
 
 # Install GEM from source (and store version so cache rebuilds when GEM source code updates)
 # Note: currently breaks cache if any branch updates, but could make this branch-specific with /GH/path/refs/heads/[BRANCH]
-ADD https://api.github.com/repos/large-scale-gxe-methods/gem-workflow/git/refs/heads version.json
+ADD https://api.github.com/repos/large-scale-gxe-methods/GEM/git/refs/heads version.json
 RUN apt-get update && apt-get -y install git make libzstd-dev && \
   git clone https://github.com/large-scale-gxe-methods/GEM && \
   cd /GEM/src/ && \
