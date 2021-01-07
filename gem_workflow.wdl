@@ -380,7 +380,7 @@ workflow run_GEM {
 		int_covar_names: "Column header name(s) of any covariates for which genotype interactions should be included for adjustment in regression (space-delimited). These terms will not be included in any multi-exposure interaction tests. This set should not overlap with exposures or covar_names."
 		covar_names: "Column header name(s) of any covariates for which only main effects should be included selected covariates in the pheno data file (space-delimited). This set should not overlap with exposures or int_covar_names."
 		delimiter: "Delimiter used in the phenotype file."
-		missing: "Missing value key of phenotype file."
+		missing: "Missing value key of phenotype file. Default is 'NA'."
                 robust: "Boolean: should robust (a.k.a. sandwich/Huber-White) standard errors be used?"
 		stream_snps: "SNP numbers for each GWAS analysis."
 		tol: "Convergence tolerance for logistic regression."
