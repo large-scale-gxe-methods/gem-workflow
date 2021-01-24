@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM quay.io/cybozu/ubuntu-minimal:focal-20200925
 
 # Install Intel Math Kernel Library
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install gcc g++ gfortran wget cpio zlib1g-dev && \
@@ -31,10 +31,12 @@ RUN wget -q https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.t
   ./b2 install
 
 # Install GEM from source (and store version so cache rebuilds when GEM source code updates)
+# Note: currently breaks cache if any branch updates, but could make this branch-specific with /GH/path/refs/heads/[BRANCH]
+ADD https://api.github.com/repos/large-scale-gxe-methods/GEM/git/refs/heads version.json
 RUN apt-get update && apt-get -y install git make libzstd-dev && \
   git clone https://github.com/large-scale-gxe-methods/GEM && \
   cd /GEM/src/ && \
-  git checkout v1.1 && \
+  git checkout v1.2 && \
   env && \
   pwd && \
   ls -l && \
