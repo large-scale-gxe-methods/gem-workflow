@@ -1,230 +1,3 @@
-task run_tests_bgen {
-
-	File bgenfile
-	File? samplefile
-	Float maf
-	File phenofile
-	String sample_id_header
-	String outcome
-	Boolean binary_outcome
-	String exposure_names
-	String? int_covar_names
-	String? covar_names
-	String delimiter
-	String missing
-	Boolean robust
-	Float tol
-	Int threads
-	Int stream_snps
-	Int memory
-	Int cpu
-	Int disk
-	Int preemptible
-	Int monitoring_freq
-
-	String binary_outcome01 = if binary_outcome then "1" else "0"
-	String robust01 = if robust then "1" else "0"
-
-	command {
-		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
-		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
-
-		/GEM/GEM \
-			--bgen ${bgenfile} \
-			${"--sample " + samplefile} \
-			--maf ${maf} \
-			--pheno-file ${phenofile} \
-			--sampleid-name ${sample_id_header} \
-			--pheno-name ${outcome} \
-			--pheno-type ${binary_outcome01} \
-			--exposure-names ${exposure_names} \
-			${"--int-covar-names " + int_covar_names} \
-			${"--covar-names " + covar_names} \
-			--delim ${delimiter} \
-			--missing-value ${missing} \
-			--robust ${robust01} \
-			--tol ${tol} \
-			--threads ${threads} \
-			--stream-snps ${stream_snps} \
-			--out gem_res
-	}
-
-	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
-		memory: "${memory} GB"
-		cpu: "${cpu}"
-		disks: "local-disk ${disk} HDD"
-		preemptible: "${preemptible}"
-		gpu: false
-		dx_timeout: "7D0H00M"
-	}
-
-	output {
-		File out = "gem_res"
-		File system_resource_usage = "system_resource_usage.log"
-		File process_resource_usage = "process_resource_usage.log"
-	}
-}
-
-task run_tests_pgen {
-
-	File pgenfile
-	File psamfile
-	File pvarfile
-	Float maf
-	File phenofile
-	String sample_id_header
-	String outcome
-	Boolean binary_outcome
-	String exposure_names
-	String? int_covar_names
-	String? covar_names
-	String delimiter
-	String missing
-	Boolean robust
-	Float tol
-	Int threads
-	Int stream_snps
-	Int memory
-	Int cpu
-	Int disk
-	Int preemptible
-	Int monitoring_freq
-
-	String binary_outcome01 = if binary_outcome then "1" else "0"
-	String robust01 = if robust then "1" else "0"
-
-	command {
-		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
-		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
-
-		/GEM/GEM \
-			--pgen ${pgenfile} \
-			--psam ${psamfile} \
-			--pvar ${pvarfile} \
-			--maf ${maf} \
-			--pheno-file ${phenofile} \
-			--sampleid-name ${sample_id_header} \
-			--pheno-name ${outcome} \
-			--pheno-type ${binary_outcome01} \
-			--exposure-names ${exposure_names} \
-			${"--int-covar-names " + int_covar_names} \
-			${"--covar-names " + covar_names} \
-			--delim ${delimiter} \
-			--missing-value ${missing} \
-			--robust ${robust01} \
-			--tol ${tol} \
-			--threads ${threads} \
-			--stream-snps ${stream_snps} \
-			--out gem_res
-	}
-
-	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
-		memory: "${memory} GB"
-		cpu: "${cpu}"
-		disks: "local-disk ${disk} HDD"
-		preemptible: "${preemptible}"
-		gpu: false
-		dx_timeout: "7D0H00M"
-	}
-
-	output {
-		File out = "gem_res"
-		File system_resource_usage = "system_resource_usage.log"
-		File process_resource_usage = "process_resource_usage.log"
-	}
-}
-
-task run_tests_bed {
-
-	File bedfile
-	File famfile
-	File bimfile
-	Float maf
-	File phenofile
-	String sample_id_header
-	String outcome
-	Boolean binary_outcome
-	String exposure_names
-	String? int_covar_names
-	String? covar_names
-	String delimiter
-	String missing
-	Boolean robust
-	Float tol
-	Int threads
-	Int stream_snps
-	Int memory
-	Int cpu
-	Int disk
-	Int preemptible
-	Int monitoring_freq
-
-	String binary_outcome01 = if binary_outcome then "1" else "0"
-	String robust01 = if robust then "1" else "0"
-
-	command {
-		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
-		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
-
-		/GEM/GEM \
-			--bed ${bedfile} \
-			--fam ${famfile} \
-			--bim ${bimfile} \
-			--maf ${maf} \
-			--pheno-file ${phenofile} \
-			--sampleid-name ${sample_id_header} \
-			--pheno-name ${outcome} \
-			--pheno-type ${binary_outcome01} \
-			--exposure-names ${exposure_names} \
-			${"--int-covar-names " + int_covar_names} \
-			${"--covar-names " + covar_names} \
-			--delim ${delimiter} \
-			--missing-value ${missing} \
-			--robust ${robust01} \
-			--tol ${tol} \
-			--threads ${threads} \
-			--stream-snps ${stream_snps} \
-			--out gem_res
-	}
-
-	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
-		memory: "${memory} GB"
-		cpu: "${cpu}"
-		disks: "local-disk ${disk} HDD"
-		preemptible: "${preemptible}"
-		gpu: false
-		dx_timeout: "7D0H00M"
-	}
-
-	output {
-		File out = "gem_res"
-		File system_resource_usage = "system_resource_usage.log"
-		File process_resource_usage = "process_resource_usage.log"
-	}
-}
-
-task cat_results {
-
-	Array[File] results_array
-
-	command {
-		head -1 ${results_array[0]} > all_results.txt && \
-			for res in ${sep=" " results_array}; do tail -n +2 $res >> all_results.txt; done
-	}
-	
-	runtime {
-		docker: "ubuntu:20.04"
-		disks: "local-disk 10 HDD"
-	}
-	output {
-		File all_results = "all_results.txt"
-	}
-}
-
-
 workflow run_GEM {
 
 	Array[File]? bgenfiles
@@ -316,7 +89,6 @@ workflow run_GEM {
 		}
 	}
 
-
 	if (defined(bedfiles)) {
 		scatter (i in range(n_files)) {
 			call run_tests_bed {
@@ -399,3 +171,233 @@ workflow run_GEM {
         }
 }
 
+
+task run_tests_bgen {
+
+	File bgenfile
+	File? samplefile
+	Float maf
+	File phenofile
+	String sample_id_header
+	String outcome
+	Boolean binary_outcome
+	String exposure_names
+	String? int_covar_names
+	String? covar_names
+	String delimiter
+	String missing
+	Boolean robust
+	Float tol
+	Int threads
+	Int stream_snps
+	Int memory
+	Int cpu
+	Int disk
+	Int preemptible
+	Int monitoring_freq
+
+	String binary_outcome01 = if binary_outcome then "1" else "0"
+	String robust01 = if robust then "1" else "0"
+
+	command {
+		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
+		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
+
+		/GEM/GEM \
+			--bgen ${bgenfile} \
+			${"--sample " + samplefile} \
+			--maf ${maf} \
+			--pheno-file ${phenofile} \
+			--sampleid-name ${sample_id_header} \
+			--pheno-name ${outcome} \
+			--pheno-type ${binary_outcome01} \
+			--exposure-names ${exposure_names} \
+			${"--int-covar-names " + int_covar_names} \
+			${"--covar-names " + covar_names} \
+			--delim ${delimiter} \
+			--missing-value ${missing} \
+			--robust ${robust01} \
+			--tol ${tol} \
+			--threads ${threads} \
+			--stream-snps ${stream_snps} \
+			--out gem_res
+	}
+
+	runtime {
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		memory: "${memory} GB"
+		cpu: "${cpu}"
+		disks: "local-disk ${disk} HDD"
+		preemptible: "${preemptible}"
+		gpu: false
+		dx_timeout: "7D0H00M"
+	}
+
+	output {
+		File out = "gem_res"
+		File system_resource_usage = "system_resource_usage.log"
+		File process_resource_usage = "process_resource_usage.log"
+	}
+}
+
+
+task run_tests_pgen {
+
+	File pgenfile
+	File psamfile
+	File pvarfile
+	Float maf
+	File phenofile
+	String sample_id_header
+	String outcome
+	Boolean binary_outcome
+	String exposure_names
+	String? int_covar_names
+	String? covar_names
+	String delimiter
+	String missing
+	Boolean robust
+	Float tol
+	Int threads
+	Int stream_snps
+	Int memory
+	Int cpu
+	Int disk
+	Int preemptible
+	Int monitoring_freq
+
+	String binary_outcome01 = if binary_outcome then "1" else "0"
+	String robust01 = if robust then "1" else "0"
+
+	command {
+		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
+		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
+
+		/GEM/GEM \
+			--pgen ${pgenfile} \
+			--psam ${psamfile} \
+			--pvar ${pvarfile} \
+			--maf ${maf} \
+			--pheno-file ${phenofile} \
+			--sampleid-name ${sample_id_header} \
+			--pheno-name ${outcome} \
+			--pheno-type ${binary_outcome01} \
+			--exposure-names ${exposure_names} \
+			${"--int-covar-names " + int_covar_names} \
+			${"--covar-names " + covar_names} \
+			--delim ${delimiter} \
+			--missing-value ${missing} \
+			--robust ${robust01} \
+			--tol ${tol} \
+			--threads ${threads} \
+			--stream-snps ${stream_snps} \
+			--out gem_res
+	}
+
+	runtime {
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		memory: "${memory} GB"
+		cpu: "${cpu}"
+		disks: "local-disk ${disk} HDD"
+		preemptible: "${preemptible}"
+		gpu: false
+		dx_timeout: "7D0H00M"
+	}
+
+	output {
+		File out = "gem_res"
+		File system_resource_usage = "system_resource_usage.log"
+		File process_resource_usage = "process_resource_usage.log"
+	}
+}
+
+
+task run_tests_bed {
+
+	File bedfile
+	File famfile
+	File bimfile
+	Float maf
+	File phenofile
+	String sample_id_header
+	String outcome
+	Boolean binary_outcome
+	String exposure_names
+	String? int_covar_names
+	String? covar_names
+	String delimiter
+	String missing
+	Boolean robust
+	Float tol
+	Int threads
+	Int stream_snps
+	Int memory
+	Int cpu
+	Int disk
+	Int preemptible
+	Int monitoring_freq
+
+	String binary_outcome01 = if binary_outcome then "1" else "0"
+	String robust01 = if robust then "1" else "0"
+
+	command {
+		dstat -c -d -m --nocolor ${monitoring_freq} > system_resource_usage.log &
+		atop -x -P PRM ${monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
+
+		/GEM/GEM \
+			--bed ${bedfile} \
+			--fam ${famfile} \
+			--bim ${bimfile} \
+			--maf ${maf} \
+			--pheno-file ${phenofile} \
+			--sampleid-name ${sample_id_header} \
+			--pheno-name ${outcome} \
+			--pheno-type ${binary_outcome01} \
+			--exposure-names ${exposure_names} \
+			${"--int-covar-names " + int_covar_names} \
+			${"--covar-names " + covar_names} \
+			--delim ${delimiter} \
+			--missing-value ${missing} \
+			--robust ${robust01} \
+			--tol ${tol} \
+			--threads ${threads} \
+			--stream-snps ${stream_snps} \
+			--out gem_res
+	}
+
+	runtime {
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		memory: "${memory} GB"
+		cpu: "${cpu}"
+		disks: "local-disk ${disk} HDD"
+		preemptible: "${preemptible}"
+		gpu: false
+		dx_timeout: "7D0H00M"
+	}
+
+	output {
+		File out = "gem_res"
+		File system_resource_usage = "system_resource_usage.log"
+		File process_resource_usage = "process_resource_usage.log"
+	}
+}
+
+
+task cat_results {
+
+	Array[File] results_array
+
+	command {
+		head -1 ${results_array[0]} > all_results.txt && \
+			for res in ${sep=" " results_array}; do tail -n +2 $res >> all_results.txt; done
+	}
+	
+	runtime {
+		docker: "ubuntu:20.04"
+		disks: "local-disk 10 HDD"
+	}
+
+	output {
+		File all_results = "all_results.txt"
+	}
+}
