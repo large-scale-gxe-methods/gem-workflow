@@ -1,6 +1,6 @@
 # version 1.3
 
-import "https://raw.githubusercontent.com/large-scale-gxe-methods/gem-workflow/dev/gem_workflow.wdl" as gem_wf
+import "gem_workflow.wdl" as gem_wf
 
 
 workflow checker {
