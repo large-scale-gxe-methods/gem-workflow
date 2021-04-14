@@ -404,7 +404,7 @@ task cat_results {
 	}
 	
 	runtime {
-		docker: "ubuntu:20.04"
+		docker: "quay.io/large-scale-gxe-methods/ubuntu:focal-20210325"
 		disks: "local-disk 10 HDD"
 	}
 
