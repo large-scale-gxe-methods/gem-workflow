@@ -167,7 +167,7 @@ workflow run_GEM {
         meta {
                 author: "Kenny Westerman"
                 email: "kewesterman@mgh.harvard.edu"
-                description: "Run interaction tests using GEM and return a table of summary statistics for K-DF interaction and (K+1)-DF joint tests."
+                description: "Run gene-environment interaction tests using GEM and return a file of summary statistics."
         }
 }
 
