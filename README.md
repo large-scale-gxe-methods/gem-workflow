@@ -25,6 +25,7 @@ Inputs:
 * delimiter: Delimiter used in the phenotype file.
 * missing: Missing value key of phenotype file. Default is 'NA'.
 * robust: Boolean: should robust (a.k.a. sandwich/Huber-White) standard errors be used?
+* output_style: Optional string specifying the output columns to include: minimum (marginal and GxE estimates), meta (minimum plus main G and GxCovariate terms), or full (meta plus additionals fields necessary for re-analysis based on summary statistics alone). Default is 'minimum'.
 * stream_snps: SNP numbers for each GWAS analysis.
 * tol: Convergence tolerance for logistic regression.
 * memory: Requested memory (in GB).

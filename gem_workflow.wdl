@@ -19,6 +19,7 @@ workflow run_GEM {
 	String? delimiter = ","
 	String? missing = "NA"
 	Boolean robust
+	String? output_style = "minimum"
 	Int? stream_snps = 1
 	Float? tol = 0.000001
 	Int? memory = 10
@@ -47,6 +48,7 @@ workflow run_GEM {
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
+					output_style = output_style,
 					stream_snps = stream_snps,
 					tol = tol,
 					memory = memory,
@@ -77,6 +79,7 @@ workflow run_GEM {
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
+					output_style = output_style,
 					stream_snps = stream_snps,
 					tol = tol,
 					memory = memory,
@@ -107,6 +110,7 @@ workflow run_GEM {
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
+					output_style = output_style,
 					stream_snps = stream_snps,
 					tol = tol,
 					memory = memory,
@@ -154,6 +158,7 @@ workflow run_GEM {
 		delimiter: "Delimiter used in the phenotype file."
 		missing: "Missing value key of phenotype file. Default is 'NA'."
                 robust: "Boolean: should robust (a.k.a. sandwich/Huber-White) standard errors be used?"
+		output_style: "Optional string specifying the output columns to include: minimum (marginal and GxE estimates), meta (minimum plus main G and GxCovariate terms), or full (meta plus additionals fields necessary for re-analysis based on summary statistics alone). Default is 'minimum'."
 		stream_snps: "SNP numbers for each GWAS analysis."
 		tol: "Convergence tolerance for logistic regression."
 		memory: "Requested memory (in GB)."
@@ -187,6 +192,7 @@ task run_tests_bgen {
 	String delimiter
 	String missing
 	Boolean robust
+	String output_style
 	Float tol
 	Int threads
 	Int stream_snps
@@ -217,6 +223,7 @@ task run_tests_bgen {
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
+			--output-style ${output_style} \
 			--tol ${tol} \
 			--threads ${threads} \
 			--stream-snps ${stream_snps} \
@@ -257,6 +264,7 @@ task run_tests_pgen {
 	String delimiter
 	String missing
 	Boolean robust
+	String output_style
 	Float tol
 	Int threads
 	Int stream_snps
@@ -288,6 +296,7 @@ task run_tests_pgen {
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
+			--output-style ${output_style} \
 			--tol ${tol} \
 			--threads ${threads} \
 			--stream-snps ${stream_snps} \
@@ -328,6 +337,7 @@ task run_tests_bed {
 	String delimiter
 	String missing
 	Boolean robust
+	String output_style
 	Float tol
 	Int threads
 	Int stream_snps
@@ -359,6 +369,7 @@ task run_tests_bed {
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
+			--output-style ${output_style} \
 			--tol ${tol} \
 			--threads ${threads} \
 			--stream-snps ${stream_snps} \
