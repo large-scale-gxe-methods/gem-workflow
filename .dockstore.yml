@@ -1,0 +1,7 @@
+version: 1.2
+workflows:
+  - name: gem-workflow
+    subclass: WDL
+    primaryDescriptorPath: /gem_workflow.wdl
+    testParameterFiles: 
+      - test.json

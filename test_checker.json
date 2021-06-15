@@ -1,0 +1,16 @@
+{
+  "checker.bgenfiles": ["testfiles/example.bgen", "testfiles/example.bgen"],
+  "checker.maf": "0.001",
+  "checker.phenofile": "testfiles/example.pheno",
+  "checker.sample_id_header": "sampleid",
+  "checker.outcome": "pheno1",
+  "checker.binary_outcome": "false",
+  "checker.exposure_names": "cov1",
+  "checker.int_covar_names": "cov2",
+  "checker.covar_names": "cov3",
+  "checker.missing": "NaN",
+  "checker.robust": "true",
+  "checker.memory": "1",
+  "checker.disk": "1",
+  "checker.expected_sumstats": "testfiles/example.out"
+}

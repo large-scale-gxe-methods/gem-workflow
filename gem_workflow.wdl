@@ -19,6 +19,7 @@ workflow run_GEM {
 	String? delimiter = ","
 	String? missing = "NA"
 	Boolean robust
+	String? output_style = "minimum"
 	Int? stream_snps = 1
 	Float? tol = 0.000001
 	Int? memory = 10
@@ -47,6 +48,7 @@ workflow run_GEM {
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
+					output_style = output_style,
 					stream_snps = stream_snps,
 					tol = tol,
 					memory = memory,
@@ -77,6 +79,7 @@ workflow run_GEM {
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
+					output_style = output_style,
 					stream_snps = stream_snps,
 					tol = tol,
 					memory = memory,
@@ -107,6 +110,7 @@ workflow run_GEM {
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
+					output_style = output_style,
 					stream_snps = stream_snps,
 					tol = tol,
 					memory = memory,
@@ -154,6 +158,7 @@ workflow run_GEM {
 		delimiter: "Delimiter used in the phenotype file."
 		missing: "Missing value key of phenotype file. Default is 'NA'."
                 robust: "Boolean: should robust (a.k.a. sandwich/Huber-White) standard errors be used?"
+		output_style: "Optional string specifying the output columns to include: minimum (marginal and GxE estimates), meta (minimum plus main G and GxCovariate terms), or full (meta plus additionals fields necessary for re-analysis based on summary statistics alone). Default is 'minimum'."
 		stream_snps: "SNP numbers for each GWAS analysis."
 		tol: "Convergence tolerance for logistic regression."
 		memory: "Requested memory (in GB)."
@@ -167,7 +172,7 @@ workflow run_GEM {
         meta {
                 author: "Kenny Westerman"
                 email: "kewesterman@mgh.harvard.edu"
-                description: "Run interaction tests using GEM and return a table of summary statistics for K-DF interaction and (K+1)-DF joint tests."
+                description: "Run gene-environment interaction tests using GEM and return a file of summary statistics."
         }
 }
 
@@ -187,6 +192,7 @@ task run_tests_bgen {
 	String delimiter
 	String missing
 	Boolean robust
+	String output_style
 	Float tol
 	Int threads
 	Int stream_snps
@@ -217,6 +223,7 @@ task run_tests_bgen {
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
+			--output-style ${output_style} \
 			--tol ${tol} \
 			--threads ${threads} \
 			--stream-snps ${stream_snps} \
@@ -224,7 +231,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:v1.2.0"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:9fcc63f2be022eaa4f262a3722a36a54010acb0c23c3b5641c40d832c98145c3"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -257,6 +264,7 @@ task run_tests_pgen {
 	String delimiter
 	String missing
 	Boolean robust
+	String output_style
 	Float tol
 	Int threads
 	Int stream_snps
@@ -288,6 +296,7 @@ task run_tests_pgen {
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
+			--output-style ${output_style} \
 			--tol ${tol} \
 			--threads ${threads} \
 			--stream-snps ${stream_snps} \
@@ -295,7 +304,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:v1.2.0"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:9fcc63f2be022eaa4f262a3722a36a54010acb0c23c3b5641c40d832c98145c3"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -328,6 +337,7 @@ task run_tests_bed {
 	String delimiter
 	String missing
 	Boolean robust
+	String output_style
 	Float tol
 	Int threads
 	Int stream_snps
@@ -359,6 +369,7 @@ task run_tests_bed {
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
+			--output-style ${output_style} \
 			--tol ${tol} \
 			--threads ${threads} \
 			--stream-snps ${stream_snps} \
@@ -366,7 +377,7 @@ task run_tests_bed {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:v1.2.0"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:9fcc63f2be022eaa4f262a3722a36a54010acb0c23c3b5641c40d832c98145c3"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -393,7 +404,7 @@ task cat_results {
 	}
 	
 	runtime {
-		docker: "ubuntu:20.04"
+		docker: "quay.io/large-scale-gxe-methods/ubuntu:focal-20210325"
 		disks: "local-disk 10 HDD"
 	}
 

@@ -1,4 +1,4 @@
-FROM quay.io/cybozu/ubuntu-minimal:focal-20200925
+FROM quay.io/large-scale-gxe-methods/ubuntu:focal-20210325
 
 # Install Intel Math Kernel Library
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install gcc g++ gfortran wget cpio zlib1g-dev && \
@@ -36,7 +36,7 @@ ADD https://api.github.com/repos/large-scale-gxe-methods/GEM/git/refs/heads vers
 RUN apt-get update && apt-get -y install git make libzstd-dev && \
   git clone https://github.com/large-scale-gxe-methods/GEM && \
   cd /GEM/src/ && \
-  git checkout v1.2 && \
+  git checkout v1.3 && \
   env && \
   pwd && \
   ls -l && \
