@@ -236,6 +236,7 @@ task run_tests_bgen {
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
 		preemptible: "${preemptible}"
+		maxRetries: 2
 		gpu: false
 		dx_timeout: "7D0H00M"
 	}
@@ -309,6 +310,7 @@ task run_tests_pgen {
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
 		preemptible: "${preemptible}"
+		maxRetries: 2
 		gpu: false
 		dx_timeout: "7D0H00M"
 	}
@@ -382,6 +384,7 @@ task run_tests_bed {
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
 		preemptible: "${preemptible}"
+		maxRetries: 2
 		gpu: false
 		dx_timeout: "7D0H00M"
 	}
