@@ -12,7 +12,6 @@ workflow run_GEM {
 	File phenofile
 	String? sample_id_header = "sampleID"
 	String outcome
-	Boolean binary_outcome
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
@@ -41,7 +40,6 @@ workflow run_GEM {
 					phenofile = phenofile,
 					sample_id_header = sample_id_header,
 					outcome = outcome,
-					binary_outcome = binary_outcome,
 					exposure_names = exposure_names,
 					int_covar_names = int_covar_names,
 					covar_names = covar_names,
@@ -72,7 +70,6 @@ workflow run_GEM {
 					phenofile = phenofile,
 					sample_id_header = sample_id_header,
 					outcome = outcome,
-					binary_outcome = binary_outcome,
 					exposure_names = exposure_names,
 					int_covar_names = int_covar_names,
 					covar_names = covar_names,
@@ -103,7 +100,6 @@ workflow run_GEM {
 					phenofile = phenofile,
 					sample_id_header = sample_id_header,
 					outcome = outcome,
-					binary_outcome = binary_outcome,
 					exposure_names = exposure_names,
 					int_covar_names = int_covar_names,
 					covar_names = covar_names,
@@ -151,7 +147,6 @@ workflow run_GEM {
 		phenofile: "Phenotype filepath."	
 		sample_id_header: "Optional column header name of sample ID in phenotype file."
 		outcome: "Column header name of phenotype data in phenotype file."
-                binary_outcome: "Boolean: is the outcome binary? Otherwise, quantitative is assumed."
 		exposure_names: "Column header name(s) of the exposures for genotype interaction testing (space-delimited)."
 		int_covar_names: "Column header name(s) of any covariates for which genotype interactions should be included for adjustment in regression (space-delimited). These terms will not be included in any multi-exposure interaction tests. This set should not overlap with exposures or covar_names."
 		covar_names: "Column header name(s) of any covariates for which only main effects should be included selected covariates in the pheno data file (space-delimited). This set should not overlap with exposures or int_covar_names."
@@ -185,7 +180,6 @@ task run_tests_bgen {
 	File phenofile
 	String sample_id_header
 	String outcome
-	Boolean binary_outcome
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
@@ -202,7 +196,6 @@ task run_tests_bgen {
 	Int preemptible
 	Int monitoring_freq
 
-	String binary_outcome01 = if binary_outcome then "1" else "0"
 	String robust01 = if robust then "1" else "0"
 
 	command {
@@ -216,7 +209,6 @@ task run_tests_bgen {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--pheno-type ${binary_outcome01} \
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
@@ -231,7 +223,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:f8b03984e9251dedb3d8cc32eee225cae4dd87ac6fc453b98f40bcb282a39009"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -258,7 +250,6 @@ task run_tests_pgen {
 	File phenofile
 	String sample_id_header
 	String outcome
-	Boolean binary_outcome
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
@@ -275,7 +266,6 @@ task run_tests_pgen {
 	Int preemptible
 	Int monitoring_freq
 
-	String binary_outcome01 = if binary_outcome then "1" else "0"
 	String robust01 = if robust then "1" else "0"
 
 	command {
@@ -290,7 +280,6 @@ task run_tests_pgen {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--pheno-type ${binary_outcome01} \
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
@@ -305,7 +294,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:f8b03984e9251dedb3d8cc32eee225cae4dd87ac6fc453b98f40bcb282a39009"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -332,7 +321,6 @@ task run_tests_bed {
 	File phenofile
 	String sample_id_header
 	String outcome
-	Boolean binary_outcome
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
@@ -349,7 +337,6 @@ task run_tests_bed {
 	Int preemptible
 	Int monitoring_freq
 
-	String binary_outcome01 = if binary_outcome then "1" else "0"
 	String robust01 = if robust then "1" else "0"
 
 	command {
@@ -364,7 +351,6 @@ task run_tests_bed {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--pheno-type ${binary_outcome01} \
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
@@ -379,7 +365,7 @@ task run_tests_bed {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:f8b03984e9251dedb3d8cc32eee225cae4dd87ac6fc453b98f40bcb282a39009"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
