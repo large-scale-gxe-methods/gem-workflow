@@ -6,10 +6,10 @@
   "run_GEM.outcome": "pheno1",
   "run_GEM.binary_outcome": "false",
   "run_GEM.exposure_names": "cov1",
-  "run_GEM.int_covar_names": "cov2",
   "run_GEM.covar_names": "cov3",
   "run_GEM.missing": "NaN",
   "run_GEM.robust": "true",
+  "run_GEM.output_style": "meta",
   "run_GEM.memory": "1",
   "run_GEM.disk": "1"
 }
