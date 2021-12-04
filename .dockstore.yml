@@ -4,4 +4,4 @@ workflows:
     subclass: WDL
     primaryDescriptorPath: /gem_workflow.wdl
     testParameterFiles: 
-      - test.json
+      - testfiles/test.json

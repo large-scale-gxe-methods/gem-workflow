@@ -1,10 +1,11 @@
 {
-  "run_GEM.bgenfiles": ["testfiles/example.bgen", "testfiles/example.bgen"],
+  "run_GEM.bedfiles": ["testfiles/bed_by_plink.bed", "testfiles/bed_by_plink.bed"],
+  "run_GEM.famfile": "testfiles/bed_by_plink.fam",
+  "run_GEM.bimfiles": ["testfiles/bed_by_plink.bim", "testfiles/bed_by_plink.bim"],
   "run_GEM.maf": "0.001",
   "run_GEM.phenofile": "testfiles/example.pheno",
   "run_GEM.sample_id_header": "sampleid",
   "run_GEM.outcome": "pheno1",
-  "run_GEM.binary_outcome": "false",
   "run_GEM.exposure_names": "cov1",
   "run_GEM.int_covar_names": "cov2",
   "run_GEM.covar_names": "cov3",
