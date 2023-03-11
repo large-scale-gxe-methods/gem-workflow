@@ -16,6 +16,13 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install gcc g++ 
   ldconfig && \
   echo "source /opt/intel/mkl/bin/mklvars.sh intel64" >> /etc/bash.bashrc
 
+# Install Eigen3
+RUN cd /tmp && \
+  wget https://gitlab.com/libeigen/eigen/-/archive/3.4.0/eigen-3.4.0.tar.gz && \
+  tar -xf eigen-3.4.0.tar.gz && \
+  cp -r eigen-3.4.0/Eigen /usr/local/include/ && \
+  rm -rf *
+
 # Install Boost
 ENV LD_LIBRARY_PATH=/opt/intel/compilers_and_libraries_2019.3.199/linux/tbb/lib/intel64_lin/gcc4.7:/opt/intel/compilers_and_libraries_2019.3.199/linux/compiler/lib/intel64_lin:/opt/intel/compilers_and_libraries_2019.3.199/linux/mkl/lib/intel64_lin
 ENV CPATH=/opt/intel/compilers_and_libraries_2019.3.199/linux/mkl/include
@@ -24,7 +31,7 @@ ENV LIBRARY_PATH=/opt/intel/compilers_and_libraries_2019.3.199/linux/tbb/lib/int
 ENV MKLROOT=/opt/intel/compilers_and_libraries_2019.3.199/linux/mkl
 ENV PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV PKG_CONFIG_PATH=/opt/intel/compilers_and_libraries_2019.3.199/linux/mkl/bin/pkgconfig
-RUN wget -q https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.tar.gz && \
+RUN wget -q https://boostorg.jfrog.io/artifactory/main/release/1.71.0/source/boost_1_71_0.tar.gz && \
   tar -xzf boost_1_71_0.tar.gz && \
   cd boost_1_71_0 && \
   ./bootstrap.sh && \
@@ -33,10 +40,10 @@ RUN wget -q https://dl.bintray.com/boostorg/release/1.71.0/source/boost_1_71_0.t
 # Install GEM from source (and store version so cache rebuilds when GEM source code updates)
 # Note: currently breaks cache if any branch updates, but could make this branch-specific with /GH/path/refs/heads/[BRANCH]
 ADD https://api.github.com/repos/large-scale-gxe-methods/GEM/git/refs/heads version.json
-RUN apt-get update && apt-get -y install git make libzstd-dev && \
+RUN apt-get update && apt-get -y install git make libzstd-dev libarmadillo-dev && \
   git clone https://github.com/large-scale-gxe-methods/GEM && \
   cd /GEM/src/ && \
-  git checkout v1.4.1 && \
+  git checkout v1.4.5 && \
   env && \
   pwd && \
   ls -l && \
