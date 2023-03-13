@@ -243,7 +243,6 @@ task run_tests_bgen {
 
 
 task run_tests_pgen {
-
 	File pgenfile
 	File psamfile
 	File pvarfile
