@@ -224,7 +224,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -295,7 +295,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -367,7 +367,7 @@ task run_tests_bed {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
