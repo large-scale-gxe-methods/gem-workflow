@@ -212,6 +212,7 @@ task run_tests_bgen {
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
+		  --center 1 \
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
@@ -223,7 +224,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -283,6 +284,7 @@ task run_tests_pgen {
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
+		  --center 1 \
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
@@ -294,7 +296,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -354,6 +356,7 @@ task run_tests_bed {
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
+		  --center 1 \
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
@@ -365,7 +368,7 @@ task run_tests_bed {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow:dev"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
