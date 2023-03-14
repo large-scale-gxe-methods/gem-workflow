@@ -15,6 +15,7 @@ workflow run_GEM {
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
+  Int? center = 2
 	String? delimiter = ","
 	String? missing = "NA"
 	Boolean robust
@@ -43,6 +44,7 @@ workflow run_GEM {
 					exposure_names = exposure_names,
 					int_covar_names = int_covar_names,
 					covar_names = covar_names,
+					center = center,
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
@@ -73,6 +75,7 @@ workflow run_GEM {
 					exposure_names = exposure_names,
 					int_covar_names = int_covar_names,
 					covar_names = covar_names,
+					center = center,
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
@@ -103,6 +106,7 @@ workflow run_GEM {
 					exposure_names = exposure_names,
 					int_covar_names = int_covar_names,
 					covar_names = covar_names,
+					center = center,
 					delimiter = delimiter,
 					missing = missing,
 					robust = robust,
@@ -150,6 +154,7 @@ workflow run_GEM {
 		exposure_names: "Column header name(s) of the exposures for genotype interaction testing (space-delimited)."
 		int_covar_names: "Column header name(s) of any covariates for which genotype interactions should be included for adjustment in regression (space-delimited). These terms will not be included in any multi-exposure interaction tests. This set should not overlap with exposures or covar_names."
 		covar_names: "Column header name(s) of any covariates for which only main effects should be included selected covariates in the pheno data file (space-delimited). This set should not overlap with exposures or int_covar_names."
+		center: "Should exposures and interaction covariates be centered prior to analyis? 0: no, 1: yes, 2: interaction covariates only. Default is 2."
 		delimiter: "Delimiter used in the phenotype file."
 		missing: "Missing value key of phenotype file. Default is 'NA'."
                 robust: "Boolean: should robust (a.k.a. sandwich/Huber-White) standard errors be used?"
@@ -183,6 +188,7 @@ task run_tests_bgen {
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
+	Int? center
 	String delimiter
 	String missing
 	Boolean robust
@@ -212,7 +218,7 @@ task run_tests_bgen {
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
-		  --center 1 \
+			--center ${center} \
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
@@ -224,7 +230,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:3f1ec273d8d5432d1dfb5930f8084162b753a3fbfdb314253dd6214cb3238a2d"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -253,6 +259,7 @@ task run_tests_pgen {
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
+	Int? center
 	String delimiter
 	String missing
 	Boolean robust
@@ -283,7 +290,7 @@ task run_tests_pgen {
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
-		  --center 1 \
+			--center ${center} \
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
@@ -295,7 +302,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:3f1ec273d8d5432d1dfb5930f8084162b753a3fbfdb314253dd6214cb3238a2ddev"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -325,6 +332,7 @@ task run_tests_bed {
 	String exposure_names
 	String? int_covar_names
 	String? covar_names
+	Int? center
 	String delimiter
 	String missing
 	Boolean robust
@@ -355,7 +363,7 @@ task run_tests_bed {
 			--exposure-names ${exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
-		  --center 1 \
+		  --center ${center} \
 			--delim ${delimiter} \
 			--missing-value ${missing} \
 			--robust ${robust01} \
@@ -367,7 +375,7 @@ task run_tests_bed {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a9a1413798f1494692531e8563e5318a95218e03994b2ab6d23f6b8d81c9b2e5"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:3f1ec273d8d5432d1dfb5930f8084162b753a3fbfdb314253dd6214cb3238a2ddev"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
