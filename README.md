@@ -5,7 +5,7 @@ Author: Kenny Westerman (kewesterman@mgh.harvard.edu)
 GEM tool information:
 
 * Source code: https://github.com/large-scale-gxe-methods/GEM
-* Expanded documentation: https://large-scale-gxe-methods.github.io/GEM-website/
+* Expanded documentation: https://large-scale-gxe-methods.github.io
 * Manuscript: KE Westerman, DT Pham, et al. GEM: Scalable and flexible gene-environment interaction analysis in millions of samples. *Bioinformatics* (2021). https://doi.org/10.1093/bioinformatics/btab223.
 
 Workflow steps:
