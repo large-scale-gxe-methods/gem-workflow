@@ -12,7 +12,7 @@ workflow run_GEM {
 	File phenofile
 	String? sample_id_header = "sampleID"
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
   Int? center = 2
@@ -185,7 +185,7 @@ task run_tests_bgen {
 	File phenofile
 	String sample_id_header
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
 	Int? center
@@ -215,7 +215,7 @@ task run_tests_bgen {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--exposure-names ${exposure_names} \
+			${"--exposure-names " + exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
 			--center ${center} \
@@ -230,7 +230,7 @@ task run_tests_bgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:588502dc01954f821daac1c457f6351779a90d32dded8f598f8b73594e41aa55"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:14e410f8c1a5ae09d0fe99eda761daeb9a01d9316d3d359acae3d94b9026c787"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -256,7 +256,7 @@ task run_tests_pgen {
 	File phenofile
 	String sample_id_header
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
 	Int? center
@@ -302,7 +302,7 @@ task run_tests_pgen {
 	}
 
 	runtime {
-		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:588502dc01954f821daac1c457f6351779a90d32dded8f598f8b73594e41aa55"
+		docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:14e410f8c1a5ae09d0fe99eda761daeb9a01d9316d3d359acae3d94b9026c787"
 		memory: "${memory} GB"
 		cpu: "${cpu}"
 		disks: "local-disk ${disk} HDD"
@@ -329,7 +329,7 @@ task run_tests_bed {
 	File phenofile
 	String sample_id_header
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
 	Int? center
@@ -360,7 +360,7 @@ task run_tests_bed {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--exposure-names ${exposure_names} \
+			${"--exposure-names " + exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
 		  --center ${center} \
