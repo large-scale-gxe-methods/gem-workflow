@@ -43,7 +43,7 @@ ADD https://api.github.com/repos/large-scale-gxe-methods/GEM/git/refs/heads vers
 RUN apt-get update && apt-get -y install git make libzstd-dev libarmadillo-dev && \
   git clone https://github.com/large-scale-gxe-methods/GEM && \
   cd /GEM/src/ && \
-  git checkout v1.5.1 && \
+  git checkout v1.5.2 && \
   env && \
   pwd && \
   ls -l && \

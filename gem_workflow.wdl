@@ -12,7 +12,7 @@ workflow run_GEM {
 	File phenofile
 	String? sample_id_header = "sampleID"
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
   Int? center = 2
@@ -185,7 +185,7 @@ task run_tests_bgen {
 	File phenofile
 	String sample_id_header
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
 	Int? center
@@ -215,7 +215,7 @@ task run_tests_bgen {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--exposure-names ${exposure_names} \
+			${"--exposure-names " + exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
 			--center ${center} \
@@ -256,7 +256,7 @@ task run_tests_pgen {
 	File phenofile
 	String sample_id_header
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
 	Int? center
@@ -329,7 +329,7 @@ task run_tests_bed {
 	File phenofile
 	String sample_id_header
 	String outcome
-	String exposure_names
+	String? exposure_names
 	String? int_covar_names
 	String? covar_names
 	Int? center
@@ -360,7 +360,7 @@ task run_tests_bed {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--exposure-names ${exposure_names} \
+			${"--exposure-names " + exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
 		  --center ${center} \
