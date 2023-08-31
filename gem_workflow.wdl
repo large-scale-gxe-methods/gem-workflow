@@ -287,7 +287,7 @@ task run_tests_pgen {
 			--pheno-file ${phenofile} \
 			--sampleid-name ${sample_id_header} \
 			--pheno-name ${outcome} \
-			--exposure-names ${exposure_names} \
+			${"--exposure-names " + exposure_names} \
 			${"--int-covar-names " + int_covar_names} \
 			${"--covar-names " + covar_names} \
 			--center ${center} \
