@@ -11,7 +11,7 @@ workflow run_GEM {
     Array[File]? bimfiles
     File? famfile
     Float maf = 0.005
-    Float miss_geno_cutoff
+    Float miss_geno_cutoff = 0.05
     File phenofile
     String sample_id_header = "sampleID"
     String outcome
