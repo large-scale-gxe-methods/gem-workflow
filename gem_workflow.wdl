@@ -91,6 +91,7 @@ workflow run_GEM {
 
   output {
     File gem_results = cat_results.all_results
+    Array[File] gem_log = run_tests.log
     Array[File]? system_resource_usage = sru
     Array[File]? process_resource_usage = pru
   }
@@ -212,7 +213,7 @@ task run_tests {
       --tol ${tol} \
       --threads ${threads} \
       --stream-snps ${stream_snps} \
-      --out gem_res
+      --out gem_res > gem_log.log
   }
 
   runtime {
@@ -228,6 +229,7 @@ task run_tests {
 
   output {
     File out = "gem_res"
+    File log = "gem_log.log"
     File system_resource_usage = "system_resource_usage.log"
     File process_resource_usage = "process_resource_usage.log"
   }
