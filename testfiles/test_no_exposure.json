@@ -1,12 +1,12 @@
 {
   "run_GEM.bgenfiles": ["testfiles/example.bgen", "testfiles/example.bgen"],
-  "run_GEM.maf": "0.001",
-  "run_GEM.phenofile": "testfiles/example.pheno",
-  "run_GEM.sample_id_header": "sampleid",
-  "run_GEM.outcome": "pheno1",
-  "run_GEM.covar_names": "cov3",
-  "run_GEM.missing": "NaN",
-  "run_GEM.robust": "true",
-  "run_GEM.memory": "1",
-  "run_GEM.disk": "1"
+  "run_GEM.run_tests.maf": "0.001",
+  "run_GEM.run_tests.pheno_file": "testfiles/example.pheno",
+  "run_GEM.run_tests.sampleid_name": "sampleid",
+  "run_GEM.run_tests.pheno_name": "pheno1",
+  "run_GEM.run_tests.covar_names": "cov3",
+  "run_GEM.run_tests.missing": "NaN",
+  "run_GEM.run_tests.robust": "true",
+  "run_GEM.run_tests.memory_gb": "1",
+  "run_GEM.run_tests.disk_gb": "1"
 }
