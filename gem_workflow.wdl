@@ -176,7 +176,7 @@ task run_tests {
   >>>
 
   runtime {
-    docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:a0dadc1319a27a718737adc8725f6329439af9654012f1cfb15c65d2ba534363"
+    docker: "quay.io/large-scale-gxe-methods/gem-workflow@sha256:cc06d7596a01fa3b2c0f1c8a12ced906616250fc822d9e1bc65388181b94ad33"
     memory: "~{memory_gb} GB"
     cpu: "~{n_cpu}"
     disks: "local-disk ~{disk_gb} HDD"
