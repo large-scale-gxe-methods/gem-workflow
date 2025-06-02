@@ -16,6 +16,7 @@ workflow run_GEM {
   scatter (i in range(n_files)) {
     call run_tests {
       input:
+        bgenfile = if defined(bgenfiles) && i < length(select_first([bgenfiles])) && defined(select_first([bgenfiles])[i]) then select_first([bgenfiles])[i] else unused,
         pgenfile = if defined(pgenfiles) && i < length(select_first([pgenfiles])) && defined(select_first([pgenfiles])[i]) then select_first([pgenfiles])[i] else unused,
         pvarfile = if defined(pvarfiles) && i < length(select_first([pvarfiles])) && defined(select_first([pvarfiles])[i]) then select_first([pvarfiles])[i] else unused,
         bedfile  = if defined(bedfiles)  && i < length(select_first([bedfiles]))  && defined(select_first([bedfiles])[i])  then select_first([bedfiles])[i]  else unused,
@@ -128,6 +129,7 @@ task run_tests {
         Int disk_gb         = 50
         Int memory_gb       = 10
         Int preemptible     = 0
+        Int maxRetries      = 0
         Int stream_snps     = 1
         Int monitoring_freq = 1
   }
@@ -139,7 +141,7 @@ task run_tests {
     dstat -c -d -m --nocolor ~{monitoring_freq} > system_resource_usage.log &
     atop -x -P PRM ~{monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
 
-    /GEM/GEM \
+    /GEM \
       ~{"--bgen "             + bgenfile         } \
       ~{"--sample "           + samplefile       } \
       ~{"--pgen "             + pgenfile         } \
@@ -181,7 +183,7 @@ task run_tests {
     cpu: "~{n_cpu}"
     disks: "local-disk ~{disk_gb} HDD"
     preemptible: "~{preemptible}"
-    maxRetries: 2
+    maxRetries: "~{maxRetries}"
     gpu: false
     dx_timeout: "7D0H00M"
   }
@@ -199,8 +201,8 @@ task cat_results {
   input { Array[File] results_array }
 
   command <<<
-    head -1 ${results_array[0]} > all_results.txt && \
-      for res in ${sep=" " results_array}; do tail -n +2 $res >> all_results.txt; done
+    head -1 ~{results_array[0]} > all_results.txt && \
+      for res in ~{sep=" " results_array}; do tail -n +2 $res >> all_results.txt; done
   >>>
   
   runtime {
