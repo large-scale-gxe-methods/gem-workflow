@@ -1,16 +1,16 @@
 {
   "run_GEM.bedfiles": ["testfiles/bed_by_plink.bed", "testfiles/bed_by_plink.bed"],
-  "run_GEM.famfile": "testfiles/bed_by_plink.fam",
   "run_GEM.bimfiles": ["testfiles/bed_by_plink.bim", "testfiles/bed_by_plink.bim"],
-  "run_GEM.maf": "0.001",
-  "run_GEM.phenofile": "testfiles/example.pheno",
-  "run_GEM.sample_id_header": "sampleid",
-  "run_GEM.outcome": "pheno1",
-  "run_GEM.exposure_names": "cov1",
-  "run_GEM.int_covar_names": "cov2",
-  "run_GEM.covar_names": "cov3",
-  "run_GEM.missing": "NaN",
-  "run_GEM.robust": "true",
-  "run_GEM.memory": "1",
-  "run_GEM.disk": "1"
+  "run_GEM.run_tests.famfile": "testfiles/bed_by_plink.fam",
+  "run_GEM.run_tests.maf": "0.001",
+  "run_GEM.run_tests.pheno_file": "testfiles/example.pheno",
+  "run_GEM.run_tests.sampleid_name": "sampleid",
+  "run_GEM.run_tests.pheno_name": "pheno1",
+  "run_GEM.run_tests.exposure_names": "cov1",
+  "run_GEM.run_tests.int_covar_names": "cov2",
+  "run_GEM.run_tests.covar_names": "cov3",
+  "run_GEM.run_tests.missing": "NaN",
+  "run_GEM.run_tests.robust": "true",
+  "run_GEM.run_tests.memory_gb": "1",
+  "run_GEM.run_tests.disk_gb": "1"
 }
