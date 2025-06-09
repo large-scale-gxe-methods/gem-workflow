@@ -142,38 +142,38 @@ task run_tests {
     atop -x -P PRM ~{monitoring_freq} | grep '(GEM)' > process_resource_usage.log &
 
     /GEM \
-      ~{"--bgen "             + bgenfile         } \
-      ~{"--sample "           + samplefile       } \
-      ~{"--pgen "             + pgenfile         } \
-      ~{"--pvar "             + pvarfile         } \
-      ~{"--psam "             + psamfile         } \
-      ~{"--bed "              + bedfile          } \
-      ~{"--bim "              + bimfile          } \
-      ~{"--fam "              + famfile          } \
-      ~{"--kin-file"          + kin_file         } \
-      ~{"--include-snp-file"  + include_snp_file } \
-      ~{"--exposure-names "   + exposure_names   } \
-      ~{"--covar-names "      + covar_names      } \
-      ~{"--int-covar-names "  + int_covar_names  } \
-      ~{"--categorical-names" + categorical_names} \
-      ~{"--random-slope"      + random_slope     } \
-      --kin-delim                     ~{kin_delim} \
-      --kin-diag                       ~{kin_diag} \
-      --maf                                 ~{maf} \
-      --miss-geno-cutoff       ~{miss_geno_cutoff} \
-      --pheno-file                   ~{pheno_file} \
-      --sampleid-name             ~{sampleid_name} \
-      --pheno-name                   ~{pheno_name} \
-      --cat-threshold             ~{cat_threshold} \
-      --center                           ~{center} \
-      --scale                           ~{scale01} \
-      --delim                         ~{delimiter} \
-      --missing-value                   ~{missing} \
-      --robust                         ~{robust01} \
-      --output-style               ~{output_style} \
-      --tol                                 ~{tol} \
-      --threads                         ~{threads} \
-      --stream-snps                 ~{stream_snps} \
+      ~{"--bgen "              +          bgenfile} \
+      ~{"--sample "            +        samplefile} \
+      ~{"--pgen "              +          pgenfile} \
+      ~{"--pvar "              +          pvarfile} \
+      ~{"--psam "              +          psamfile} \
+      ~{"--bed "               +           bedfile} \
+      ~{"--bim "               +           bimfile} \
+      ~{"--fam "               +           famfile} \
+      ~{"--kin-file "          +          kin_file} \
+      ~{"--include-snp-file "  +  include_snp_file} \
+      ~{"--exposure-names "    +    exposure_names} \
+      ~{"--covar-names "       +       covar_names} \
+      ~{"--int-covar-names "   +   int_covar_names} \
+      ~{"--categorical-names " + categorical_names} \
+      ~{"--random-slope "      +      random_slope} \
+      --kin-delim                      ~{kin_delim} \
+      --kin-diag                        ~{kin_diag} \
+      --maf                                  ~{maf} \
+      --miss-geno-cutoff        ~{miss_geno_cutoff} \
+      --pheno-file                    ~{pheno_file} \
+      --sampleid-name              ~{sampleid_name} \
+      --pheno-name                    ~{pheno_name} \
+      --cat-threshold              ~{cat_threshold} \
+      --center                            ~{center} \
+      --scale                            ~{scale01} \
+      --delim                          ~{delimiter} \
+      --missing-value                    ~{missing} \
+      --robust                          ~{robust01} \
+      --output-style                ~{output_style} \
+      --tol                                  ~{tol} \
+      --threads                          ~{threads} \
+      --stream-snps                  ~{stream_snps} \
       --out gem_res > gem_log.log
   >>>
 
