@@ -174,7 +174,7 @@ task run_tests {
       --tol                                  ~{tol} \
       --threads                          ~{threads} \
       --stream-snps                  ~{stream_snps} \
-      --out gem_res > gem_log.log
+      --out gem_res | tee gem_log.log
   >>>
 
   runtime {
