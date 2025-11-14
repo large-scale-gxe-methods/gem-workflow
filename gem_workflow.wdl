@@ -3,10 +3,18 @@ version 1.0
 workflow run_GEM {
   input {
     Array[File]? bgenfiles
+    Array[File]? samplefiles
     Array[File]? pgenfiles
     Array[File]? pvarfiles
+    Array[File]? psamfiles
     Array[File]? bedfiles
     Array[File]? bimfiles
+    Array[File]? famfiles
+
+    # Single-File inputs are for convenience, as often multiple chrs will share the same sample file.
+    File? samplefile
+    File? psamfile
+    File? famfile
 
     String? unused # WDL 1.0 has no "None" value yet. Workaround: using a never-defined optional value.
   }
@@ -16,11 +24,14 @@ workflow run_GEM {
   scatter (i in range(n_files)) {
     call run_tests {
       input:
-        bgenfile = if defined(bgenfiles) && i < length(select_first([bgenfiles])) && defined(select_first([bgenfiles])[i]) then select_first([bgenfiles])[i] else unused,
-        pgenfile = if defined(pgenfiles) && i < length(select_first([pgenfiles])) && defined(select_first([pgenfiles])[i]) then select_first([pgenfiles])[i] else unused,
-        pvarfile = if defined(pvarfiles) && i < length(select_first([pvarfiles])) && defined(select_first([pvarfiles])[i]) then select_first([pvarfiles])[i] else unused,
-        bedfile  = if defined(bedfiles)  && i < length(select_first([bedfiles]))  && defined(select_first([bedfiles])[i])  then select_first([bedfiles])[i]  else unused,
-        bimfile  = if defined(bimfiles)  && i < length(select_first([bimfiles]))  && defined(select_first([bimfiles])[i])  then select_first([bimfiles])[i]  else unused,
+        bgenfile   = if defined(bgenfiles  ) && i < length(select_first([bgenfiles  ])) && defined(select_first([bgenfiles  ])[i]) then select_first([bgenfiles  ])[i] else unused,
+        samplefile = if defined(samplefiles) && i < length(select_first([samplefiles])) && defined(select_first([samplefiles])[i]) then select_first([samplefiles])[i] else samplefile,
+        pgenfile   = if defined(pgenfiles  ) && i < length(select_first([pgenfiles  ])) && defined(select_first([pgenfiles  ])[i]) then select_first([pgenfiles  ])[i] else unused,
+        pvarfile   = if defined(pvarfiles  ) && i < length(select_first([pvarfiles  ])) && defined(select_first([pvarfiles  ])[i]) then select_first([pvarfiles  ])[i] else unused,
+        psamfile   = if defined(psamfiles  ) && i < length(select_first([psamfiles  ])) && defined(select_first([psamfiles  ])[i]) then select_first([psamfiles  ])[i] else psamfile,
+        bedfile    = if defined(bedfiles   ) && i < length(select_first([bedfiles   ])) && defined(select_first([bedfiles   ])[i]) then select_first([bedfiles   ])[i] else unused,
+        bimfile    = if defined(bimfiles   ) && i < length(select_first([bimfiles   ])) && defined(select_first([bimfiles   ])[i]) then select_first([bimfiles   ])[i] else unused,
+        famfile    = if defined(famfiles   ) && i < length(select_first([famfiles   ])) && defined(select_first([famfiles   ])[i]) then select_first([famfiles   ])[i] else famfile,
     }
   }
 
@@ -39,13 +50,16 @@ workflow run_GEM {
 
   parameter_meta {
     bgenfiles: "Array of genotype filepaths in .bgen format. Optional, but either this or pgenfiles must be specified as an input."
-    samplefile: "Optional .sample file accompanying the .bgen file. Required for proper function if .bgen does not store sample identifiers."
+    samplefiles: "Optional .sample files accompanying the .bgen files. Required for proper function if .bgen does not store sample identifiers."
+    samplefile: "Convenient alternative to the samplefiles input, if all bgenfiles share the same sample information."
     pgenfiles: "Array of genotype filepaths in .pgen (PLINK2) format. Optional, but at least one genotype dataset must be specified as an input."
-    psamfile: "Sample descriptor file in .psam (PLINK2) format. Optional, but must be included if using the pgenfiles input."
     pvarfiles: "Array of variant descriptor filepaths in .pvar (PLINK2) format. Optional, but must be included if using the pgenfiles input."
+    psamfiles: "Sample descriptor files in .psam (PLINK2) format. Optional, but must be included if using the pgenfiles input."
+    psamfile: "Convenient alternative to the psamfiles input, if all pgenfiles share the same sample information."
     bedfiles: "Array of genotype filepaths in .bed (PLINK1) format. Optional, but at least one genotype dataset must be specified as an input."
-    famfile: "Sample descriptor file in .fam (PLINK1) format. Optional, but must be included if using the bedfiles input."
     bimfiles: "Array of variant descriptor filepaths in .bim (PLINK1) format. Optional, but must be included if using the bedfiles input."
+    famfiles: "Sample descriptor files in .fam (PLINK1) format. Optional, but must be included if using the bedfiles input."
+    famfile: "Convenient alternative to the famfiles input, if all bedfiles share the same sample information."
     maf: "Minor allele frequency threshold for pre-filtering variants as a fraction (default is 0.005)."
     miss_geno_cutoff: "Maximum threshold value [0, 1.0] to filter variants based on the missing genotype rate. Default is 0.05."
     pheno_file: "Phenotype filepath."
@@ -93,11 +107,11 @@ task run_tests {
        File? pvarfile
        File? bedfile
        File? bimfile
-
-    # Additional required inputs
        File? psamfile
        File? samplefile
        File? famfile
+
+    # Additional required inputs
        File  pheno_file
      String  pheno_name
      String  sampleid_name

@@ -1,7 +1,7 @@
 {
   "run_GEM.bedfiles": ["testfiles/bed_by_plink.bed", "testfiles/bed_by_plink.bed"],
   "run_GEM.bimfiles": ["testfiles/bed_by_plink.bim", "testfiles/bed_by_plink.bim"],
-  "run_GEM.run_tests.famfile": "testfiles/bed_by_plink.fam",
+  "run_GEM.famfile": "testfiles/bed_by_plink.fam",
   "run_GEM.run_tests.maf": "0.001",
   "run_GEM.run_tests.pheno_file": "testfiles/example.pheno",
   "run_GEM.run_tests.sampleid_name": "sampleid",
