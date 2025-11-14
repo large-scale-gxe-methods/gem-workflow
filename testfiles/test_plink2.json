@@ -1,7 +1,7 @@
 {
   "run_GEM.pgenfiles": ["testfiles/pgen_by_plink.pgen", "testfiles/pgen_by_plink.pgen"],
   "run_GEM.pvarfiles": ["testfiles/pgen_by_plink.pvar", "testfiles/pgen_by_plink.pvar"],
-  "run_GEM.run_tests.psamfile": "testfiles/pgen_by_plink.psam",
+  "run_GEM.psamfile": "testfiles/pgen_by_plink.psam",
   "run_GEM.run_tests.maf": "0.001",
   "run_GEM.run_tests.pheno_file": "testfiles/example.pheno",
   "run_GEM.run_tests.sampleid_name": "sampleid",
